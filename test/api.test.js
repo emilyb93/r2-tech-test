@@ -3,7 +3,37 @@ const server = require('../server');
 
 const request = supertest(server);
 
-test('/api', async () => {
-  const { body } = await request.get('/api').expect(200);
-  expect(body.message).toBe('ok');
+describe('Lizzos juice bar', () => {
+  describe('/api', () => {
+    test('/api', async () => {
+      const { body } = await request.get('/api').expect(200);
+      expect(body.message).toBe('ok');
+    });
+    
+  });
+
+  describe('/api/recipes', () => {
+
+    test('should return an array of all recipes if requeseted with no query term', async () => {
+
+      const {body} = await request.get('/api').expect(200)
+
+      body.forEach((recipe)=>{
+
+        expect(recipe.ingredients).toEqual(expect.objectContaining({ 
+          "id": expect.any(String),
+        "imageUrl": expect.any(String),
+        "instructions": expect.any(String),
+        "ingredients": expect.any(Object)
+        }))
+
+        expect(recipe.ingredients).toEqual(expect.objectContaining({
+          'name': expect.any(String),
+          'grams' : expect.any(Number)
+        }))
+      })
+    });
+    
+  });
 });
+
