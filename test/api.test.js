@@ -28,11 +28,42 @@ describe('Lizzos juice bar', () => {
         "ingredients": expect.any(Object)
         }))
 
-        expect(recipe.ingredients).toEqual(expect.arrayContaining([expect.objectContaining({
-          'name' : expect.any(String),
-          'grams' : expect.any(Number)
-        })]))
+        recipe.ingredients.forEach((ingObj)=>{
+          expect(ingObj).toEqual(expect.objectContaining({
+            'name' : expect.any(String),
+            'grams' : expect.any(Number)
+          }))
+        })
       })
+    });
+
+    test('should exclude any ingredients given with the query of ?exclude_ingredients=:ingredients', async() => {
+
+      const {body} = await request.get('/api/recipes?exclude_ingredients=apples,kale').expect(200)
+
+      expect(body).not.toBe(undefined)
+      
+      body.recipes.forEach((recipe)=>{
+
+        expect(recipe).toEqual(expect.objectContaining({ 
+          "id": expect.any(String),
+        "imageUrl": expect.any(String),
+        "instructions": expect.any(String),
+        "ingredients": expect.any(Object)
+        }))
+
+
+        recipe.ingredients.forEach((ingObj)=>{
+          expect(ingObj.name).not.toBe('apple')
+          expect(ingObj.name).not.toBe('banana')
+          expect(ingObj.name).not.toBe('carrot')
+
+
+        })
+        
+      })
+
+      
     });
     
   });
