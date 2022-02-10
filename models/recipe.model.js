@@ -1,13 +1,11 @@
 const fs = require('fs/promises')
 
+
+
 exports.fetchRecipes = async (queryObj)=>{
     console.log(queryObj)
 
     let querysPresent = false
-
-    
-
-    
     
     const recipesStr = await fs.readFile('./data/data.json', 'utf8')
     
@@ -47,4 +45,20 @@ exports.fetchRecipes = async (queryObj)=>{
     }
 
     return  querysPresent ? await filteredRecipes : await allRecipes
+}
+
+exports.fetchSingleRecipe = async ({id}) =>{
+    const recipesStr = await fs.readFile('./data/data.json', 'utf8')
+    const allRecipes = JSON.parse(recipesStr)
+
+    const singleRecipe =  allRecipes.filter((recipe)=>{
+
+        return recipe.id === `recipe-${id}`
+    })
+console.log(singleRecipe)
+    return singleRecipe[0]
+
+
+          
+
 }
