@@ -67,7 +67,27 @@ describe('Lizzos juice bar', () => {
       });
     });
 
+    describe('#POST', () => {
+      test('should add a new recipe to the data, return with 200 and the recipe with a newly added unique id', async () => {
+        const newRecipe = {
+        "imageUrl": "http://www.images.com/101",
+        "instructions": "literally just put it in a blender",
+        "ingredients": [
+          { "name": "mango", "grams": 112 },
+          { "name": "coconut", "grams": 167 },
+          { "name": "banana", "grams": 72 }
+        ]
+      }
+        
+        const {body} = await request.post('/api/recipes/3').send(newRecipe).expect(200)
 
+        expect(body.recipe).toEqual(expect.objectContaining({ 
+          "id": expect.any(Number),
+           ...newRecipe
+        }))
+
+      });
+    });
 
     
   });
@@ -88,6 +108,8 @@ describe('Lizzos juice bar', () => {
       });
     });
   });
+
+  
 
 
 });

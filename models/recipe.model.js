@@ -26,7 +26,6 @@ exports.fetchRecipes = async (queryObj)=>{
                 return ing
             })
 
-            console.log(queries)
         
              filteredRecipes =  allRecipes.filter((recipe)=>{
 
@@ -40,7 +39,6 @@ exports.fetchRecipes = async (queryObj)=>{
                  } )
                  return !remove
             })
-            console.log(await allRecipes.length, await filteredRecipes.length)
 
     }
 
@@ -55,10 +53,13 @@ exports.fetchSingleRecipe = async ({id}) =>{
 
         return recipe.id === `recipe-${id}`
     })
-console.log(singleRecipe)
     return singleRecipe[0]
 
 
           
 
+}
+
+exports.postNewRecipe = async (body) => {
+    console.log(body)
 }

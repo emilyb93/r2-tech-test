@@ -1,21 +1,30 @@
-const {fetchRecipes, fetchSingleRecipe} = require('../models/recipe.model.js')
+const {fetchRecipes, fetchSingleRecipe, postNewRecipe} = require('../models/recipe.model.js')
 
 
 exports.requestRecipes = async (req,res)=>{
     const recipes =  await fetchRecipes(req.query)
 
-    console.log(recipes.length)
     
     
     res.status(200).send({recipes})
     
 }
 
-exports.requestSingleRecipe = async (req,res,next) =>{
+exports.requestSingleRecipe = async (req,res) =>{
 
     const recipe = await fetchSingleRecipe(req.params)
 
-    console.log(recipe)
 
     res.status(200).send({recipe})
+}
+
+exports.addRecipe = async (req, res) => {
+    console.log('in controller')
+
+    console.log(req.body, '<<<<<<<')
+
+    const recipe = await postNewRecipe(req.body)
+
+    res.status(201).send({recipe})
+
 }
