@@ -55,7 +55,6 @@ describe('Lizzos juice bar', () => {
 
         recipe.ingredients.forEach((ingObj)=>{
           expect(ingObj.name).not.toBe('apple')
-          expect(ingObj.name).not.toBe('banana')
           expect(ingObj.name).not.toBe('carrot')
 
 

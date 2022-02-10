@@ -10,10 +10,12 @@ exports.fetchRecipes = async (queryObj)=>{
     
     
     const recipesStr = await fs.readFile('./data/data.json', 'utf8')
-    let filteredRecipes
     
+    
+    const allRecipes = JSON.parse(recipesStr)
+    let filteredRecipes
 
-    const recipeArray = await JSON.parse(recipesStr)
+
     if(queryObj.exclude_ingredients){
         querysPresent = true
 
@@ -25,13 +27,14 @@ exports.fetchRecipes = async (queryObj)=>{
                 }
                 return ing
             })
+
             console.log(queries)
         
-             filteredRecipes =  recipeArray.filter( async (recipe)=>{
+             filteredRecipes =  allRecipes.filter((recipe)=>{
 
                 let remove = false
 
-                await queries.forEach((query) =>{
+                 queries.forEach((query) =>{
                      if (JSON.stringify(recipe.ingredients).includes(query)){
                         remove = true
                      }
@@ -39,9 +42,9 @@ exports.fetchRecipes = async (queryObj)=>{
                  } )
                  return !remove
             })
-            console.log(recipeArray.length, filteredRecipes.length)
+            console.log(await allRecipes.length, await filteredRecipes.length)
 
     }
 
-    return  querysPresent ? await filteredRecipes : await recipeArray
+    return  querysPresent ? await filteredRecipes : await allRecipes
 }
